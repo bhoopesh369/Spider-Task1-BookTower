@@ -1,0 +1,42 @@
+h1{
+    color: rgb(27, 250, 87);
+    font-family: 'Rubik Moonrocks', cursive;
+    font-size: 3.5rem;
+    font-weight: 400;
+    
+}
+
+h2{
+    font-size: 1.9rem;
+    color: gold;
+    font-family: 'Press Start 2P', cursive;
+    margin-top: 4%;
+}
+
+h3{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    display: none;
+    font-size: 1.8rem;
+    color: red;
+    position: absolute;
+    z-index: 1;
+    top: 3%;
+    right: 3%;
+}
+body{
+    overflow: hidden;
+    text-align: center;
+    background-color: black;
+}
+
+.MaxScore{
+    top: 7.5%;
+
+}
+
+#w{
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+}
