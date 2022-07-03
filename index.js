@@ -1,11 +1,17 @@
 var inGame = false;
 var score = -10;
+var colour = "";
+
 
 var MaxScoreBookTower = 0;
 MaxScoreBookTower = window.localStorage.getItem("MaxScoreBookTower");
 document.querySelector(".MaxScore").innerHTML = "Max Score: " + MaxScoreBookTower;
 
 const api_url = "http://api.creativehandles.com/getRandomColor";
+// const api_url = "https://www.colr.org/json/color/random";
+// const api_url = "https://random-color-api-app.herokuapp.com";
+
+
 var request;
 
 document.addEventListener('click',GameMain);
@@ -78,10 +84,6 @@ function GameMain(){
             if(score>=150){
                 this.dx = 2.5 * this.dx;
             }
-
-            if(color == ""){
-                color=generateRandomColor();//"#F10531"
-             }
             
             this.color = color;
     
@@ -103,7 +105,6 @@ function GameMain(){
             context.fill();
             // context.stroke();
             context.closePath();
-            
         }
     
     
@@ -149,7 +150,7 @@ function GameMain(){
                     this.inPlat= true;
                     return;
                 }
-                if(all_books.length > 10){
+                if(all_books.length > 7){
 
                     all_books.forEach(element1 => {
                         element1.dy = 2 * element1.speed;
@@ -175,10 +176,28 @@ function GameMain(){
                 if(this.alreadyClicked){
                     return;
                 }
+
+                colour ="";
+               request = new XMLHttpRequest();
+
+               request.open('GET', api_url , true);
+           
+               request.onload = function () {
+               var data = JSON.parse(this.response);
+               colour =  data.color;
+               console.log(colour);
+               
+            //    return;
+           };
+
+           request.send();
+
+
                 this.alreadyClicked = true;
                 bookPressSound();
                 this.dx = 0;
                 this.dy = 2*this.speed;
+
             });
             
             this.position_y += this.dy;
@@ -195,9 +214,8 @@ function GameMain(){
             var radius = 50;
             var random_x = 320;
             var random_y = 150;
-            var len = 70;
+            var len = 69;
 
-            var colour = "";
 
             score += 10;
             console.log(score);
@@ -205,22 +223,15 @@ function GameMain(){
             document.querySelector('h3').innerHTML = "Score : " + score + "";
 
 
-           request = new XMLHttpRequest();
+        // if internet is not there
+           if(colour == ""){
+             colour = generateRandomColor();     
+           }
 
-           request.open('GET', api_url , true);
-           
-           request.onload = function () {
-               var data = JSON.parse(this.response);
-               colour = data.color;
-               console.log(colour);
-
-               let myPlatform = new Platform(2*random_x, random_y, radius, 3, colour, false, len, false);
+           let myPlatform = new Platform(2*random_x, random_y, radius, 3, colour, false, len, false);
                all_books.push(myPlatform);
-            //    return;
-           };
 
-           request.send();
-
+        
            
     }
 
